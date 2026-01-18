@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Sertifikat Workshop Guru Modern - Afri Dani Saputra</title>
+
+    <style>
+        @page { size: A4 landscape; margin: 0; }
+    </style>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Great+Vibes&family=Montserrat:wght@400;700&display=swap');
+
+        body { background: #444; font-family: 'Montserrat', sans-serif; margin: 0; padding: 0; }
+
+        /* Floating Menu Toggle */
+        #menuToggle {
+            position: fixed; top: 20px; left: 20px; z-index: 1001;
+            background: #1a252f; color: white; border: 2px solid #c9a050;
+            padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;
+        }
+
+        /* Panel Kontrol Overlay */
+        .no-print { 
+            background: rgba(255, 255, 255, 0.95); 
+            padding: 25px; 
+            text-align: center; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            position: fixed; top: 70px; left: 20px; 
+            z-index: 1000;
+            width: 300px;
+            border-radius: 10px;
+            display: none; 
+            border: 2px solid #c9a050;
+        }
+
+        select, button.action-btn {
+            padding: 12px 20px; font-size: 16px; border-radius: 8px;
+            border: 2px solid #c9a050; margin: 10px 0; cursor: pointer;
+            width: 100%; box-sizing: border-box;
+        }
+        
+        button.action-btn {
+            background: #1a252f; color: white; font-weight: bold; transition: 0.3s;
+        }
+        button.action-btn:hover { background: #c9a050; color: #1a252f; }
+        .btn-all { background: #27ae60 !important; border-color: #27ae60 !important; }
+
+        .main-wrapper {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .page {
+            width: 297mm; height: 210mm; padding: 10mm;
+            margin: 0 auto 40px auto; background: #fffcf5;
+            box-shadow: 0 0 30px rgba(0,0,0,0.7);
+            position: relative; box-sizing: border-box;
+            page-break-after: always; overflow: hidden;
+        }
+
+        .border-double {
+            border: 2px solid #c9a050; height: 100%; width: 100%;
+            box-sizing: border-box; padding: 5px;
+        }
+        .border-main {
+            border: 8px solid #1a252f; height: 100%; width: 100%;
+            box-sizing: border-box;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            position: relative;
+        }
+
+        .corner {
+            position: absolute; width: 120px; height: 120px;
+            border: 5px solid #c9a050;
+        }
+        .top-left { top: 20px; left: 20px; border-right: none; border-bottom: none; }
+        .top-right { top: 20px; right: 20px; border-left: none; border-bottom: none; }
+        .bottom-left { bottom: 20px; left: 20px; border-right: none; border-top: none; }
+        .bottom-right { bottom: 20px; right: 20px; border-left: none; border-top: none; }
+
+        .logo-header {
+            display: flex; align-items: center; justify-content: center;
+            gap: 40px; margin-bottom: 10px; margin-top: -15px;
+        }
+        .logo-header img { height: 75px; width: auto; object-fit: contain; }
+
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 55px; letter-spacing: 8px;
+            color: #1a252f; margin: 0;
+        }
+        
+        .award {
+            font-size: 16px; letter-spacing: 1px; color: #1a252f; 
+            margin-top: -10px; font-weight: 700; text-transform: uppercase;
+        }
+
+        .to { margin-top: 25px; font-size: 18px; color: #555; }
+        
+        .name-container {
+            width: 85%; height: 80px; display: flex;
+            align-items: center; justify-content: center;
+            margin: 10px 0; border-bottom: 2px solid #c9a050;
+        }
+        .name {
+            font-family: 'Great Vibes', cursive;
+            font-size: 50px; color: #1a252f;
+            white-space: nowrap; overflow: visible;
+        }
+
+        .desc {
+            width: 85%; font-size: 17px;
+            line-height: 1.6; text-align: center; color: #333;
+        }
+        
+        .footer {
+            width: 90%; display: flex;
+            justify-content: space-around; margin-top: 40px;
+        }
+        .sig-box { 
+            text-align: center; 
+            width: 320px; 
+            font-size: 15px; 
+            position: relative; 
+        }
+        
+        .signature-container {
+            position: relative;
+            height: 90px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .signature-container img {
+            position: absolute;
+            width: auto;
+            z-index: 5;
+            pointer-events: none;
+            left: 50%; /* Titik pusat horizontal */
+        }
+
+        /* ========================================================
+           PENGATURAN TANDA TANGAN (POSISI & UKURAN)
+           ======================================================== */
+
+        /* TTD 1 (Kiri - Instrukur) */
+        .img-ttd1 {
+            height: 95px;       /* Ukuran Tinggi TTD 1 */
+            bottom: -5px;       /* Geser Atas (makin positif) / Bawah (makin negatif) */
+            /* Geser Kiri-Kanan: 
+               -50% = Pas Tengah, 
+               -30% = Geser Kanan, 
+               -70% = Geser Kiri */
+            transform: translateX(-50%); 
+        }
+
+        /* TTD 2 (Kanan - Kepala Sekolah) */
+        .img-ttd2 {
+            height: 180px;       /* Ukuran Tinggi TTD 2 */
+            bottom: -35px;       /* Geser Atas (makin positif) / Bawah (makin negatif) */
+            /* Geser Kiri-Kanan */
+            transform: translateX(-50%); 
+        }
+
+        /* ======================================================== */
+
+        .sig-line {
+            border-top: 2px solid #333;
+            font-weight: bold; 
+            padding-top: 5px;
+            font-size: 16px; 
+            color: #1a252f;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* CSS TABEL HALAMAN 2 */
+        .title-back {
+            font-family: 'Cinzel', serif;
+            font-size: 26px; color: #1a252f; margin-bottom: 25px;
+        }
+        table {
+            width: 85%; border-collapse: collapse; margin-top: 10px;
+        }
+        th, td {
+            border: 1.5px solid #1a252f;
+            padding: 12px; text-align: left;
+        }
+        /* NOMOR PAS TENGAH */
+        th:first-child, td:first-child {
+            text-align: center;
+            width: 50px;
+        }
+        /* ALOKASI WAKTU PAS TENGAH */
+        th:last-child, td:last-child {
+            text-align: center;
+            width: 120px;
+        }
+        th {
+            background: #1a252f; color: #c9a050;
+            text-transform: uppercase; font-size: 14px;
+        }
+        .total { font-weight: bold; background: #eee; }
+
+        #bulkContainer { display: none; }
+
+        @media print {
+            body { background: none; }
+            .no-print, #menuToggle { display: none !important; }
+            .main-wrapper { padding: 0; }
+            .page { margin: 0; box-shadow: none; }
+            #singleView { display: none; }
+            #bulkContainer { display: block !important; }
+        }
+    </style>
+</head>
+<body>
+
+<button id="menuToggle" onclick="togglePanel()">⚙️ Menu Sertifikat</button>
+
+<div class="no-print" id="controlPanel">
+    <h3 style="margin-top:0">Opsi Sertifikat</h3>
+    <select id="nameInput" onchange="updateCertificate()">
+        <option value="">-- Pilih Nama Peserta --</option>
+    </select>
+    <br>
+    <button class="action-btn" onclick="window.print()">Cetak Tampilan Ini</button>
+    <button class="action-btn btn-all" onclick="printAll()">Cetak SEMUA (Massal)</button>
+</div>
+
+<div class="main-wrapper">
+    <div id="singleView">
+        <div class="page">
+            <div class="border-double"><div class="border-main">
+                <div class="corner top-left"></div><div class="corner top-right"></div>
+                <div class="corner bottom-left"></div><div class="corner bottom-right"></div>
+                <div class="logo-header">
+                    <img src="logo1.png"> <img src="logo2.png"> <img src="logo3.png">
+                </div>
+                <h1>SERTIFIKAT</h1>
+                <div class="award" id="certNumber">NOMOR: ---/SD-AA1/XII/2025</div>
+                <div class="to">Diberikan Kepada:</div>
+                <div class="name-container">
+                    <div class="name" id="certName">Nama Peserta</div>
+                </div>
+                <div class="desc">
+                    Atas partisipasi aktif dan keberhasilannya sebagai <strong>Peserta</strong> dalam Workshop Internal:<br>
+                    <strong style="font-size:22px; color:#1a252f;">“GURU MODERN: ERA MAGIC AI”</strong><br>
+                    <em>Membangun Media Pembelajaran Interaktif Berbasis HTML, CSS, &amp; JavaScript melalui AI</em><br>
+                    Diselenggarakan oleh <strong>SD Anugerah Abadi 1 Bengalon</strong> pada tanggal 23 s.d. 24 Desember 2025.
+                </div>
+                <div class="footer">
+                    <div class="sig-box">
+                        Bengalon, 24 Desember 2025<br>Instruktur Workshop,
+                        <div class="signature-container">
+                            <img src="ttd1.png" class="img-ttd1">
+                        </div>
+                        <div class="sig-line">AFRI DANI SAPUTRA, S.Pd., Gr.</div>
+                    </div>
+                    <div class="sig-box">
+                        Mengetahui,<br>Kepala SD Anugerah Abadi 1,
+                        <div class="signature-container">
+                            <img src="ttd2.png" class="img-ttd2">
+                        </div>
+                        <div class="sig-line">ZAINAL FAHMI, S.Pd., Gr., M.Pd.</div>
+                    </div>
+                </div>
+            </div></div>
+        </div>
+        <div class="page">
+            <div class="border-double"><div class="border-main">
+                <div class="title-back">STRUKTUR PROGRAM WORKSHOP</div>
+                <table id="tableContent"></table>
+                <div class="desc" style="margin-top:40px; font-size:13px; color:#666;">
+                    Diterbitkan di Bengalon oleh Panitia Workshop Internal SD Anugerah Abadi 1 Bengalon.<br>
+                    Sertifikat ini sah digunakan untuk pengembangan kompetensi pendidik.
+                </div>
+            </div></div>
+        </div>
+    </div>
+    <div id="bulkContainer"></div>
+</div>
+
+<script>
+let daftarPeserta = [
+    "Dian Hertina Sari, S.Pd., Gr.", "Ebi Panjaya, S.Pd., Gr., M.Pd.", "Christy Yulita Mellania, S.Pd., Gr.",
+    "Mishbah Fatchurrohman, S.Pd., Gr.", "Queen Salkha Umaera, S.Pd., Gr.", "Sahat Hamonangan Silitonga, S.Pd., S.Pd.SD., Gr.",
+    "Sulaiman, S.Pd.", "Sunarti Biyung, S.Pd., Gr.", "Tarsisius Jebaru, S.Fil.", "Tiara Massa Rerung, S.Pd., Gr.",
+    "Wahyuni Yunus, S.Pd., Gr.", "Wiryonata Kusuma, S.H.", "Yohana Apriani, S.Pd., Gr.", "Yosi Christy Purba, S.Pd., Gr."
+];
+
+const materiHtml = `
+    <thead><tr><th>No</th><th>Materi Workshop</th><th>Alokasi Waktu</th></tr></thead>
+    <tbody>
+        <tr><td>1</td><td>Konsep Dasar AI dan Prompt Engineering dalam Pendidikan</td><td>6 JP</td></tr>
+        <tr><td>2</td><td>Anatomi Media Pembelajaran Digital (HTML, CSS, & JS)</td><td>8 JP</td></tr>
+        <tr><td>3</td><td>Optimalisasi AI sebagai Asisten Guru Modern</td><td>4 JP</td></tr>
+        <tr><td>4</td><td>Praktik Pembuatan Game Edukasi Interaktif</td><td>10 JP</td></tr>
+        <tr><td>5</td><td>Evaluasi Portofolio Digital & Rencana Tindak Lanjut</td><td>4 JP</td></tr>
+        <tr class="total"><td colspan="2" style="text-align:left; padding-left:12px;">TOTAL ALOKASI WAKTU</td><td>32 JP</td></tr>
+    </tbody>`;
+
+function togglePanel() {
+    const panel = document.getElementById('controlPanel');
+    panel.style.display = (panel.style.display === 'block') ? 'none' : 'block';
+}
+
+function isiDropdown() {
+    const select = document.getElementById('nameInput');
+    select.innerHTML = '<option value="">-- Pilih Nama Peserta --</option>';
+    daftarPeserta.forEach(nama => {
+        let opt = document.createElement('option');
+        opt.value = nama; opt.text = nama;
+        select.appendChild(opt);
+    });
+}
+
+function adjustFontSize(element) {
+    let fontSize = 50; 
+    element.style.fontSize = fontSize + "px";
+    const maxWidth = element.parentElement.offsetWidth;
+    while (element.scrollWidth > maxWidth && fontSize > 15) {
+        fontSize--;
+        element.style.fontSize = fontSize + "px";
+    }
+}
+
+function updateCertificate() {
+    const select = document.getElementById('nameInput');
+    const name = select.value;
+    const index = select.selectedIndex;
+    const nameEl = document.getElementById('certName');
+    
+    nameEl.innerText = name || 'Nama Peserta';
+    adjustFontSize(nameEl);
+
+    if (index > 0) {
+        document.getElementById('certNumber').innerText = `NOMOR: ${index.toString().padStart(3, '0')}/SD-AA1/XII/2025`;
+    }
+}
+
+function printAll() {
+    const bulk = document.getElementById('bulkContainer');
+    bulk.innerHTML = ''; 
+    daftarPeserta.forEach((nama, i) => {
+        const noUrut = (i + 1).toString().padStart(3, '0');
+        bulk.innerHTML += `
+        <div class="page">
+            <div class="border-double"><div class="border-main">
+                <div class="corner top-left"></div><div class="corner top-right"></div>
+                <div class="corner bottom-left"></div><div class="corner bottom-right"></div>
+                <div class="logo-header">
+                    <img src="logo1.png"> <img src="logo2.png"> <img src="logo3.png">
+                </div>
+                <h1>SERTIFIKAT</h1>
+                <div class="award">NOMOR: ${noUrut}/SD-AA1/XII/2025</div>
+                <div class="to">Diberikan Kepada:</div>
+                <div class="name-container"><div class="name bulk-name">${nama}</div></div>
+                <div class="desc">
+                    Atas partisipasi aktif dan keberhasilannya sebagai <strong>Peserta</strong> dalam Workshop Internal:<br>
+                    <strong style="font-size:22px; color:#1a252f;">“GURU MODERN: ERA MAGIC AI”</strong><br>
+                    <em>Membangun Media Pembelajaran Interaktif Berbasis HTML, CSS, &amp; JavaScript melalui AI</em><br>
+                    Diselenggarakan oleh <strong>SD Anugerah Abadi 1 Bengalon</strong> pada tanggal 23 s.d. 24 Desember 2025.
+                </div>
+                <div class="footer">
+                    <div class="sig-box">
+                        Bengalon, 24 Desember 2025<br>Instruktur Workshop,
+                        <div class="signature-container">
+                            <img src="ttd1.png" class="img-ttd1">
+                        </div>
+                        <div class="sig-line">AFRI DANI SAPUTRA, S.Pd., Gr.</div>
+                    </div>
+                    <div class="sig-box">
+                        Mengetahui,<br>Kepala SD Anugerah Abadi 1 Bengalon,
+                        <div class="signature-container">
+                            <img src="ttd2.png" class="img-ttd2">
+                        </div>
+                        <div class="sig-line">ZAINAL FAHMI, S.Pd., Gr., M.Pd.</div>
+                    </div>
+                </div>
+            </div></div>
+        </div>
+        <div class="page">
+            <div class="border-double"><div class="border-main">
+                <div class="title-back">STRUKTUR PROGRAM WORKSHOP</div>
+                <table>${materiHtml}</table>
+                <div class="desc" style="margin-top:40px; font-size:13px; color:#666;">
+                    Diterbitkan di Bengalon oleh Panitia Workshop Internal SD Anugerah Abadi 1 Bengalon.<br>
+                    Sertifikat ini sah digunakan untuk pengembangan kompetensi pendidik.
+                </div>
+            </div></div>
+        </div>`;
+    });
+
+    setTimeout(() => {
+        document.querySelectorAll('.bulk-name').forEach(el => adjustFontSize(el));
+        window.print();
+    }, 500);
+}
+
+isiDropdown();
+document.getElementById('tableContent').innerHTML = materiHtml;
+</script>
+</body>
+</html>
