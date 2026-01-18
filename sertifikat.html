@@ -60,6 +60,9 @@
             box-shadow: 0 0 30px rgba(0,0,0,0.7);
             position: relative; box-sizing: border-box;
             page-break-after: always; overflow: hidden;
+            /* Tambahan agar warna muncul saat print */
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
         }
 
         .border-double {
@@ -146,30 +149,17 @@
             left: 50%; /* Titik pusat horizontal */
         }
 
-        /* ========================================================
-           PENGATURAN TANDA TANGAN (POSISI & UKURAN)
-           ======================================================== */
-
-        /* TTD 1 (Kiri - Instrukur) */
         .img-ttd1 {
-            height: 95px;       /* Ukuran Tinggi TTD 1 */
-            bottom: -5px;       /* Geser Atas (makin positif) / Bawah (makin negatif) */
-            /* Geser Kiri-Kanan: 
-               -50% = Pas Tengah, 
-               -30% = Geser Kanan, 
-               -70% = Geser Kiri */
+            height: 95px;       
+            bottom: -5px;       
             transform: translateX(-50%); 
         }
 
-        /* TTD 2 (Kanan - Kepala Sekolah) */
         .img-ttd2 {
-            height: 180px;       /* Ukuran Tinggi TTD 2 */
-            bottom: -35px;       /* Geser Atas (makin positif) / Bawah (makin negatif) */
-            /* Geser Kiri-Kanan */
+            height: 180px;       
+            bottom: -35px;       
             transform: translateX(-50%); 
         }
-
-        /* ======================================================== */
 
         .sig-line {
             border-top: 2px solid #333;
@@ -181,7 +171,6 @@
             z-index: 1;
         }
 
-        /* CSS TABEL HALAMAN 2 */
         .title-back {
             font-family: 'Cinzel', serif;
             font-size: 26px; color: #1a252f; margin-bottom: 25px;
@@ -193,12 +182,10 @@
             border: 1.5px solid #1a252f;
             padding: 12px; text-align: left;
         }
-        /* NOMOR PAS TENGAH */
         th:first-child, td:first-child {
             text-align: center;
             width: 50px;
         }
-        /* ALOKASI WAKTU PAS TENGAH */
         th:last-child, td:last-child {
             text-align: center;
             width: 120px;
@@ -216,8 +203,13 @@
             .no-print, #menuToggle { display: none !important; }
             .main-wrapper { padding: 0; }
             .page { margin: 0; box-shadow: none; }
-            #singleView { display: none; }
+            
+            /* PERBAIKAN: Jangan sembunyikan singleView jika bulkContainer kosong */
+            #singleView { display: block !important; }
             #bulkContainer { display: block !important; }
+            
+            /* Sembunyikan singleView HANYA jika sedang print massal */
+            body.is-printing-bulk #singleView { display: none !important; }
         }
     </style>
 </head>
@@ -348,7 +340,9 @@ function updateCertificate() {
 
 function printAll() {
     const bulk = document.getElementById('bulkContainer');
+    document.body.classList.add('is-printing-bulk'); // Tandai sedang print massal
     bulk.innerHTML = ''; 
+    
     daftarPeserta.forEach((nama, i) => {
         const noUrut = (i + 1).toString().padStart(3, '0');
         bulk.innerHTML += `
@@ -402,6 +396,8 @@ function printAll() {
     setTimeout(() => {
         document.querySelectorAll('.bulk-name').forEach(el => adjustFontSize(el));
         window.print();
+        document.body.classList.remove('is-printing-bulk'); // Hapus tanda setelah selesai
+        bulk.innerHTML = '';
     }, 500);
 }
 
