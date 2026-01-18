@@ -65,7 +65,6 @@
             print-color-adjust: exact;
         }
 
-        /* Hilangkan page break di halaman terakhir agar tidak muncul halaman kosong */
         .page:last-child { page-break-after: avoid; }
 
         .border-double {
@@ -170,10 +169,23 @@
             font-size: 26px; color: #1a252f; margin-bottom: 25px;
         }
         table { width: 85%; border-collapse: collapse; margin-top: 10px; }
-        th, td { border: 1.5px solid #1a252f; padding: 12px; text-align: left; }
-        th:first-child, td:first-child { text-align: center; width: 50px; }
-        th:last-child, td:last-child { text-align: center; width: 120px; }
-        th { background: #1a252f; color: #c9a050; text-transform: uppercase; font-size: 14px; }
+        th, td { border: 1.5px solid #1a252f; padding: 12px; }
+        
+        /* Perbaikan: Paksa Judul Tabel (th) ke Tengah */
+        th { 
+            background: #1a252f; 
+            color: #c9a050; 
+            text-transform: uppercase; 
+            font-size: 14px;
+            text-align: center !important; 
+            vertical-align: middle;
+        }
+        
+        /* Pengaturan per Kolom */
+        td { text-align: left; } /* Isi materi rata kiri */
+        th:first-child, td:first-child { text-align: center; width: 50px; } /* Kolom Nomor */
+        th:last-child, td:last-child { text-align: center; width: 120px; } /* Kolom Waktu */
+
         .total { font-weight: bold; background: #eee; }
 
         #bulkContainer { display: none; }
@@ -188,7 +200,6 @@
             #singleView { display: block; }
             #bulkContainer { display: none; }
 
-            /* Saat print massal, sembunyikan tampilan tunggal */
             body.is-printing-bulk #singleView { display: none !important; }
             body.is-printing-bulk #bulkContainer { display: block !important; }
         }
@@ -277,7 +288,7 @@ const materiHtml = `
         <tr><td>3</td><td>Optimalisasi AI sebagai Asisten Guru Modern</td><td>4 JP</td></tr>
         <tr><td>4</td><td>Praktik Pembuatan Game Edukasi Interaktif</td><td>10 JP</td></tr>
         <tr><td>5</td><td>Evaluasi Portofolio Digital & Rencana Tindak Lanjut</td><td>4 JP</td></tr>
-        <tr class="total"><td colspan="2" style="text-align:left; padding-left:12px;">TOTAL ALOKASI WAKTU</td><td>32 JP</td></tr>
+        <tr class="total"><td colspan="2" style="text-align:center; padding-left:12px;">TOTAL ALOKASI WAKTU</td><td>32 JP</td></tr>
     </tbody>`;
 
 function togglePanel() {
