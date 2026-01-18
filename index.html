@@ -59,11 +59,14 @@
             margin: 0 auto 40px auto; background: #fffcf5;
             box-shadow: 0 0 30px rgba(0,0,0,0.7);
             position: relative; box-sizing: border-box;
-            page-break-after: always; overflow: hidden;
-            /* Tambahan agar warna muncul saat print */
+            page-break-after: always; 
+            overflow: hidden;
             -webkit-print-color-adjust: exact;
             print-color-adjust: exact;
         }
+
+        /* Hilangkan page break di halaman terakhir agar tidak muncul halaman kosong */
+        .page:last-child { page-break-after: avoid; }
 
         .border-double {
             border: 2px solid #c9a050; height: 100%; width: 100%;
@@ -146,20 +149,11 @@
             width: auto;
             z-index: 5;
             pointer-events: none;
-            left: 50%; /* Titik pusat horizontal */
+            left: 50%;
         }
 
-        .img-ttd1 {
-            height: 95px;       
-            bottom: -5px;       
-            transform: translateX(-50%); 
-        }
-
-        .img-ttd2 {
-            height: 180px;       
-            bottom: -35px;       
-            transform: translateX(-50%); 
-        }
+        .img-ttd1 { height: 95px; bottom: -5px; transform: translateX(-50%); }
+        .img-ttd2 { height: 180px; bottom: -35px; transform: translateX(-50%); }
 
         .sig-line {
             border-top: 2px solid #333;
@@ -175,41 +169,28 @@
             font-family: 'Cinzel', serif;
             font-size: 26px; color: #1a252f; margin-bottom: 25px;
         }
-        table {
-            width: 85%; border-collapse: collapse; margin-top: 10px;
-        }
-        th, td {
-            border: 1.5px solid #1a252f;
-            padding: 12px; text-align: left;
-        }
-        th:first-child, td:first-child {
-            text-align: center;
-            width: 50px;
-        }
-        th:last-child, td:last-child {
-            text-align: center;
-            width: 120px;
-        }
-        th {
-            background: #1a252f; color: #c9a050;
-            text-transform: uppercase; font-size: 14px;
-        }
+        table { width: 85%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1.5px solid #1a252f; padding: 12px; text-align: left; }
+        th:first-child, td:first-child { text-align: center; width: 50px; }
+        th:last-child, td:last-child { text-align: center; width: 120px; }
+        th { background: #1a252f; color: #c9a050; text-transform: uppercase; font-size: 14px; }
         .total { font-weight: bold; background: #eee; }
 
         #bulkContainer { display: none; }
 
         @media print {
-            body { background: none; }
+            html, body { height: auto; overflow: visible; background: none; }
             .no-print, #menuToggle { display: none !important; }
-            .main-wrapper { padding: 0; }
-            .page { margin: 0; box-shadow: none; }
+            .main-wrapper { padding: 0; display: block; }
+            .page { margin: 0; box-shadow: none; page-break-after: always; }
+            .page:last-child { page-break-after: avoid !important; }
             
-            /* PERBAIKAN: Jangan sembunyikan singleView jika bulkContainer kosong */
-            #singleView { display: block !important; }
-            #bulkContainer { display: block !important; }
-            
-            /* Sembunyikan singleView HANYA jika sedang print massal */
+            #singleView { display: block; }
+            #bulkContainer { display: none; }
+
+            /* Saat print massal, sembunyikan tampilan tunggal */
             body.is-printing-bulk #singleView { display: none !important; }
+            body.is-printing-bulk #bulkContainer { display: block !important; }
         }
     </style>
 </head>
@@ -340,7 +321,7 @@ function updateCertificate() {
 
 function printAll() {
     const bulk = document.getElementById('bulkContainer');
-    document.body.classList.add('is-printing-bulk'); // Tandai sedang print massal
+    document.body.classList.add('is-printing-bulk'); 
     bulk.innerHTML = ''; 
     
     daftarPeserta.forEach((nama, i) => {
@@ -396,7 +377,7 @@ function printAll() {
     setTimeout(() => {
         document.querySelectorAll('.bulk-name').forEach(el => adjustFontSize(el));
         window.print();
-        document.body.classList.remove('is-printing-bulk'); // Hapus tanda setelah selesai
+        document.body.classList.remove('is-printing-bulk'); 
         bulk.innerHTML = '';
     }, 500);
 }
